@@ -60,7 +60,7 @@ def game() -> None:
     ai: GameAI = GameAI(dif)
     ai.update(a, b)
     
-    print(_.t("game."))
+    print(_.t("game.match"))
     sleep(1)
     print(_.t("game.vs", fake_name=ai.fake_name))
     print(_.t("game.choose"))

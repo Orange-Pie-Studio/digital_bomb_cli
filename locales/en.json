@@ -1,0 +1,66 @@
+{
+    "index": {
+        "index": {
+            "one": "1. Start Game, 2. View Records, 3. Settings, 0. Exit Game:",
+            "other": "1. Start Game, 2. View Records, 3. Settings, 0. Exit Game:"
+        },
+        "esc": {
+            "one": "Welcome to play Digital Bomb next time!",
+            "other": "Welcome to play Digital Bomb next time!"
+        },
+        "saves": {
+            "one": "Time: {save.timestamp}\nVersion: {save.version}\nOpponent: {save.opponent}\nDifficulty: {save.difficulty}\nScope: {save.scope}\nBomb: {save.bomb}\nTurn: {save.turn}\nSituation: {save.situation}\nExperience Gained: {save.exp}",
+            "other": "Time: {save.timestamp}\nVersion: {save.version}\nOpponent: {save.opponent}\nDifficulty: {save.difficulty}\nScope: {save.scope}\nBomb: {save.bomb}\nTurn: {save.turn}\nSituation: {save.situation}\nExperience Gained: {save.exp}"
+        },
+        "enter": {
+            "one": "Press Enter key••••••",
+            "other": "Press Enter key••••••"
+        },
+        "index_3": {
+            "one": "1. Delete Log Files, 0. Return to Previous Level:",
+            "other": "1. Delete Log Files, 0. Return to Previous Level:"
+        }
+    },
+    "game": {
+        "difficulty": {
+            "one": "Please select game difficulty (1. Easy, 2. Medium, 3. Hard):",
+            "other": "Please select game difficulty (1. Easy, 2. Medium, 3. Hard):"
+        },
+        "scope": {
+            "one": "Please select bomb scope (1.[0~100], 2.[0~1000], 3.[0~10000]):",
+            "other": "Please select bomb scope (1.[0~100], 2.[0~1000], 3.[0~10000]):"
+        },
+        "vs": {
+            "one": "You vs {ai.fake_name}",
+            "other": "You vs {ai.fake_name}"
+        },
+        "choose": {
+            "one": "Randomly assign first turn••••••",
+            "other": "Randomly assign first turn••••••"
+        },
+        "choose_you": {
+            "one": "You are the first player",
+            "other": "You are the first player"
+        },
+        "choose_ai": {
+            "one": "{ai.fake_name} is the first player",
+            "other": "{ai.fake_name} is the first player"
+        },
+        "ai_bomb": {
+            "one": "{ai.fake_name} BOMB!\nVictory!",
+            "other": "{ai.fake_name} BOMB!\nVictory!"
+        },
+        "turn_ai": {
+            "one": "{ai.fake_name} 's turn",
+            "other": "{ai.fake_name} 's turn"
+        },
+        "you_bomb": "You BOMB!\nDefeat!"
+    },
+    "logs": {
+        "delete": "Delete",
+        "delete_situation": {
+            "one": "Deleted {count} Byte of log file",
+            "other": "Deleted {count} Bytes of log files"
+        }
+    }
+}

@@ -2,13 +2,21 @@
     "index": {
         "index": "1. Start Game, 2. View Records, 3. Settings, 0. Exit Game:",
         "esc": "Welcome to play Digital Bomb next time!",
-        "saves": "Time: {timestamp}\nVersion: {version}\nUUID: {uuid}\nOpponent: {opponent}\nDifficulty: {difficulty}\nScope: {scope}\nBomb: {bomb}\nTurns: {turn}\nSituation: {situation}\nExperience Gained: {exp}",
+        "saves": "Version: {version}\nUUID: {uuid}\nTime: {timestamp}\nGame Duration: {game_time} s\nOpponent: {opponent}\nDifficulty: {difficulty}\nScope: {scope}\nBomb: {bomb}\nFirst Player: {first}\nTotal Turns: {turn}\nSituation: {situation}\nExperience Gained: {exp}\nHistory: ",
+        "history": {
+            "turn": "\tRound {count}: ",
+            "the_person_who_is_guessing": "\tThe_person_who_is_guessing：{msg}",
+            "guess": "\tGuess：{msg}",
+            "new_range": "\tnew_range：{msg}\n"
+        },
+        "game_data": "Games played: {total_game}\nGame duration: {game_time} h\nVictories: {victory_time}\nWin rate: {win_rate}%",
         "enter": "Press Enter key••••••",
         "index_3": "1. Delete Log Files, 0. Return to Previous Level:"
     },
     "game": {
         "difficulty": "Please select game difficulty (1. Easy, 2. Medium, 3. Hard):",
         "scope": "Please select bomb scope (1.[0~100], 2.[0~1000], 3.[0~10000]):",
+        "you": "You",
         "match": "Matching••••••",
         "vs": "You vs {ai.fake_name}",
         "choose": "Randomly assign first turn••••••",

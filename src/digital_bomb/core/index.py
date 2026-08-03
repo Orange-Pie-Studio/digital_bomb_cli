@@ -32,21 +32,31 @@ def index() -> None:
             
             case '2':
                 clear_screen()
-                saves: list = load_game()
+                total_time, victory_time, saves = load_game()
                 
                 if saves:
 
                     for save in saves:
-                        print(_.t("index.saves", timestamp=save.timestamp, version=save.version,
-                                  uuid=save.uuid, opponent=save.opponent, difficulty=save.difficulty,
-                                  scope=save.scope, bomb=save.bomb, turn=save.turn,
-                                  situation=save.situation, exp=save.exp))
+                        print(_.t("index.saves",version=save.version, uuid=save.uuid,
+                                  timestamp=save.timestamp, game_time=save.game_time,
+                                  opponent=save.opponent, difficulty=save.difficulty,
+                                  scope=save.scope, bomb=save.bomb, first=save.first,
+                                  turn=save.turn,situation=save.situation, exp=save.exp))
+                        
+                        for turn, message in save.history.items():
+                            print(_.t("index.history.turn", turn=turn))
+
+                            for msg in message.items():
+                                print(_.t(f"index.history.{msg[0]}", msg=msg[1]))
+                        
                         print(CUT)
 
-                show_exp()
-                input(_.t("index.enter"))
+                    show_exp()
+                    print(_.t("index.game_data", total_game=len(saves), game_time=round(total_time/3600, 1),
+                            victory_time=victory_time, win_rate=round(victory_time/len(saves)*100, 2)))
+                    input(_.t("index.enter"))
                 clear_screen()
-            
+
             case "3":
 
                 while True:

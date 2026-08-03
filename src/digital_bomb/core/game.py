@@ -1,7 +1,8 @@
 """_summary_"""
 
+from datetime import datetime
 from random import randint
-from time import sleep
+from time import sleep, time
 
 from digital_bomb.core.GameAI import GameAI
 from digital_bomb.core.exp import show_exp, calculate_exp
@@ -56,10 +57,13 @@ def game() -> None:
     r: int = randint(0, 1)
     turn: int = 1
     keep_going: bool = True
+    history: dict = {}
     
     ai: GameAI = GameAI(dif)
     ai.update(a, b)
-    
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    start_time: float = time()
     print(_.t("game.match"))
     sleep(1)
     print(_.t("game.vs", fake_name=ai.fake_name))
@@ -67,6 +71,7 @@ def game() -> None:
     sleep(1)
     
     if not r:
+        first: str = _.t("game.you")
         print(f"\n{CUT}\n")
         print(_.t("game.choose_you", count=turn))
         
@@ -82,18 +87,17 @@ def game() -> None:
         except ValueError as e:
             logger.exception(f"{e}\n")
             c = x
-        
+
         r += 1
-        turn += 1
 
     else:
+        first = ai.fake_name
         print(f"\n{CUT}\n")
         print(_.t("game.choose_ai", count=turn, fake_name=ai.fake_name))
         c = ai.guess()
         print(f'{a} ～ {b}：{c}')
         sleep(1)
         r -= 1
-        turn += 1
     
     while keep_going:
     
@@ -101,6 +105,8 @@ def game() -> None:
     
             if c != x and a < c < b:
                 a, b = (c, b) if c < x else (a, c)
+                history[turn] = dict(the_person_who_is_guessing=ai.fake_name, guess=c, new_range=(a, b))
+                turn += 1
                 print(f"\n{CUT}\n")
                 print(_.t("game.turn_you", count=turn))
                 
@@ -116,13 +122,11 @@ def game() -> None:
                 except ValueError as e:
                     logger.exception(f"{e}\n")
                     c = x
-                
+
                 r += 1
-                turn += 1
     
             else:
                 keep_going = False
-                
                 print(f"\n{CUT}\n")
                 print(_.t("game.ai_bomb", fake_name=ai.fake_name))
                 situation: str = "victory"
@@ -132,13 +136,14 @@ def game() -> None:
     
             if c != x and a < c < b:
                 a, b = (c, b) if c < x else (a, c)
+                history[turn] = dict(the_person_who_is_guessing=_.t("game.you"), guess=c, new_range=(a, b))
+                turn += 1
                 print(f"\n{CUT}\n")
                 ai.update(a, b)
                 print(_.t("game.turn_ai", count=turn, fake_name=ai.fake_name))
                 c = ai.guess()
                 print(f"{a} ～ {b}：{c}")
                 r -= 1
-                turn += 1
     
             else:
                 keep_going = False
@@ -147,7 +152,8 @@ def game() -> None:
                 situation = "defeat"
                 break
                 
+    end_time: float = time()
     exp = calculate_exp(dif, turn, sco, situation)
-    save_game(GameState(ai.fake_name, dif, sco, turn, x, situation, exp))
+    save_game(GameState(timestamp, int(end_time - start_time), ai.fake_name, dif, sco, first, turn, x, situation, exp, history))
     show_exp(exp)
     sleep(1.5)

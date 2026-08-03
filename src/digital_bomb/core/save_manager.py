@@ -2,8 +2,6 @@
 
 import json
 from uuid import uuid4
-from pathlib import Path
-from datetime import datetime
 from dataclasses import dataclass, asdict
 
 from digital_bomb.utils.setup_logging import setup_logging, end_logger
@@ -13,23 +11,26 @@ logger = setup_logging(__name__)
 
 @dataclass
 class GameState:
+    timestamp: str
+    game_time: int
     opponent: str
     difficulty: str
     scope: str
+    first: str
     turn: int
     bomb: int
     situation: str
     exp: int
+    history: dict[int, dict[str, str | int | list[int]]]
     uuid: str = ""
     version: str = "0.0.0"
-    timestamp: str = ""
 
     @end_logger(logger)
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, str | int | dict[int, dict[str, str | int | list[int]]]]:
         """_summary_
 
         :return: _description_
-        :rtype: dict
+        :rtype: dict[str, str | int | dict[int, dict[str, str | int | list[int]]]]
         """
         return asdict(self)
 
@@ -53,7 +54,6 @@ def save_game(state: GameState) -> None:
     :param state: _description_
     :type state: GameState
     """
-    state.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     state.uuid = str(uuid4())
     state.version = __version__
     save_path = SAVE_DIR / f"{state.timestamp}.json"
@@ -79,18 +79,27 @@ def load_game() -> list[GameState] | None:
     if not files:
         return None
     
-    state = []
+    states: list[GameState] = []
 
     for path in files:
 
         try:
             raw_data = json.loads(path.read_text(encoding='utf-8'))
-            state.append(GameState.from_dict(raw_data))
+            states.append(GameState.from_dict(raw_data))
         
         except (json.JSONDecodeError, TypeError, KeyError, OSError) as e:
             logger.exception(f"\n{e}")
 
-    return state
+    total_time: int = 0
+    victory_time: int = 0
+
+    for state in states:
+        total_time += state.game_time
+
+        if state.situation == "victory":
+            victory_time += 1
+
+    return total_time, victory_time, states
 
 @end_logger(logger)
 def save_exp(level: int, exp: int, max_exp: int) -> None:

@@ -12,6 +12,7 @@ from rich.progress import Progress, BarColumn, TextColumn
 from rich.console import Console
 
 from digital_bomb.utils.i18n import _
+from digital_bomb.utils.resource_path import resource_path
 
 P = ParamSpec("P")
 R = TypeVar("R")
@@ -30,7 +31,9 @@ def setup_logging(module_name: str) -> logging.Logger:
         return logger
 
     logger.setLevel(logging.INFO)
-    log_file: Path = Path(__file__).resolve().parent.parent.parent.parent / "logs" / f"{module_name}.log"
+    log_dir: Path = resource_path("logs")
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_file: Path = log_dir / f"{module_name}.log"
     formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s")
 
     file_handler = TimedRotatingFileHandler(
@@ -76,7 +79,7 @@ def end_logger(logger: logging.Logger) -> Callable[[Callable[P, R]], Callable[P,
     
 logger = setup_logging(__name__)
     
-@end_logger(logger, )
+@end_logger(logger)
 def clear_logs() -> None:
     """_summary_"""
     log_files: list[Path] = list(Path("C:/").rglob("*.log*"))

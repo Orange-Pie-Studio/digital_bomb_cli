@@ -6,6 +6,8 @@ import locale
 from functools import lru_cache
 from pathlib import Path
 
+from digital_bomb.utils.resource_path import resource_path
+
 class I18n:
     """_summary_"""
 
@@ -24,8 +26,8 @@ class I18n:
         :return: _description_
         :rtype: dict[str, str]
         """
-        path: Path = Path(__file__).resolve().parent.parent.parent.parent / "locales" / f"{lang}.json"
-        
+        path: Path = resource_path(f"locales/{lang}.json")
+
         if path.exists():
             return json.loads(path.read_text(encoding='utf-8'))
                 

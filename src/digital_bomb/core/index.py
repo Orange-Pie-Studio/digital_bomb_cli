@@ -2,6 +2,7 @@
 
 import sys
 from time import sleep
+from shutil import get_terminal_size
 
 from digital_bomb.core.exp import show_exp
 from digital_bomb.core.game import game
@@ -9,9 +10,10 @@ from digital_bomb.core.save_manager import load_game
 from digital_bomb.utils.i18n import _
 from digital_bomb.utils.clear_screen import clear_screen
 from digital_bomb.utils.setup_logging import setup_logging, end_logger, clear_logs
-from digital_bomb.config import CUT
 
 logger = setup_logging(__name__)
+
+CUT = "-" * get_terminal_size().columns
 
 @end_logger(logger)
 def index() -> None:

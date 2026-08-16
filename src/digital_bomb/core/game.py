@@ -3,15 +3,16 @@
 from datetime import datetime
 from random import randint
 from time import sleep, time
+from shutil import get_terminal_size
 
 from digital_bomb.core.GameAI import GameAI
 from digital_bomb.core.exp import show_exp, calculate_exp
 from digital_bomb.core.save_manager import GameState, save_game
 from digital_bomb.utils.setup_logging import setup_logging, end_logger
 from digital_bomb.utils.i18n import _
-from digital_bomb.config import CUT
 
 logger = setup_logging(__name__)
+CUT = "-" * get_terminal_size().columns
 
 @end_logger(logger)
 def game() -> None:

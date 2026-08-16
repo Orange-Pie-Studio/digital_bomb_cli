@@ -1,13 +1,22 @@
 """_summary_"""
 
 import json
+import re
+from tomllib import load
 from uuid import uuid4
 from dataclasses import dataclass, asdict
 
 from digital_bomb.utils.setup_logging import setup_logging, end_logger
-from digital_bomb.config import EXP_PATH, SAVE_DIR, __version__
+from digital_bomb.utils.resource_path import resource_path
 
 logger = setup_logging(__name__)
+SAVE_DIR = resource_path("saves")
+
+if not SAVE_DIR.exists():
+    SAVE_DIR.mkdir(parents=True, exist_ok=True)
+
+EXP_PATH = SAVE_DIR / "exp.json"
+VERSION_PATH = resource_path("pyproject.toml")
 
 @dataclass
 class GameState:
@@ -55,7 +64,11 @@ def save_game(state: GameState) -> None:
     :type state: GameState
     """
     state.uuid = str(uuid4())
-    state.version = __version__
+
+    with VERSION_PATH.open('rb') as f:
+        title = load(f)
+        state.version = title["project"]["version"]
+
     save_path = SAVE_DIR / f"{state.timestamp}.json"
 
     try:
@@ -77,7 +90,7 @@ def load_game() -> list[GameState] | None:
     files = sorted(SAVE_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime)
 
     if not files:
-        return None
+        return None, None, None
     
     states: list[GameState] = []
 

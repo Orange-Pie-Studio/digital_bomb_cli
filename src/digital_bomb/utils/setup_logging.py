@@ -100,6 +100,9 @@ def clear_logs() -> None:
                 cache.append(step)
                 f.unlink(missing_ok=True)
 
+            except FileNotFoundError as e:
+                logger.exception(f"\n{e}")
+
             except Exception as e:
                 cache.remove(step)
                 logger.exception(f"\n{e}")

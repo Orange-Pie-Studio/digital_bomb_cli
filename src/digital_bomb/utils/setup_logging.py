@@ -8,6 +8,7 @@ from functools import wraps
 from collections.abc import Callable
 from typing import ParamSpec, TypeVar
 
+from psutil import disk_partitions
 from rich.progress import Progress, BarColumn, TextColumn
 from rich.console import Console
 
@@ -82,8 +83,11 @@ logger = setup_logging(__name__)
 @end_logger(logger)
 def clear_logs() -> None:
     """_summary_"""
-    log_files: list[Path] = list(Path("C:/").rglob("*.log*"))
-    log_files += list(Path("D:/").rglob("*.log*"))
+    log_files = []
+    mountpoints = [Path(part.mountpoint) for part in disk_partitions()]
+
+    for mountpoint in mountpoints:
+        log_files += list(mountpoint.rglob("*.log*"))
     
     with Progress(
         TextColumn("[#66CCFF]{task.description}"),

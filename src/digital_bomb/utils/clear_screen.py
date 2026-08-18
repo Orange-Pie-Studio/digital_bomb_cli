@@ -1,7 +1,6 @@
 """_summary_"""
 
 import sys
-from platform import system
 from subprocess import run
 
 from digital_bomb.utils.setup_logging import setup_logging, end_logger
@@ -14,9 +13,9 @@ def clear_screen() -> None:
 
     try:
     
-        match system():
+        match sys.platform:
         
-            case "Windows":
+            case "win32":
                 run(["cmd", "/c", "cls"])
             
             case _:

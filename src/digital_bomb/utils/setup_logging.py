@@ -4,6 +4,7 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 from time import perf_counter, sleep
+from datetime import datetime
 from functools import wraps
 from collections.abc import Callable
 from typing import ParamSpec, TypeVar
@@ -43,6 +44,7 @@ def setup_logging(module_name: str) -> logging.Logger:
         utc=True,
         encoding="utf-8"
     )
+    file_handler.namer = lambda default_name: f"logs/{datetime.now().strftime('%Y%m%d')}_{module_name}.log"
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
 

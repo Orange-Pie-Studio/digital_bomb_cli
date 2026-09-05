@@ -19,7 +19,7 @@ def clear_screen() -> None:
                 run(["cmd", "/c", "cls"])
             
             case _:
-                run(["usr/bin/clear"])
+                run(["/usr/bin/clear"])
                 
         sys.stdout.flush()
                 

@@ -3,6 +3,11 @@
 import sys
 from pathlib import Path
 
+from digital_bomb.utils.setup_logging import setup_logging, end_logger
+
+logger = setup_logging(__name__)
+
+@end_logger(logger)
 def resource_path(relative_path: str) -> Path:
     """_summary_
 

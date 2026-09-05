@@ -18,7 +18,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["bump-my-version>=0.18.0", "pytest>=8.0.0", "pyinstaller>=6.0.0"]
+dev = [
+    "bump-my-version>=0.18.0",
+    "pytest>=8.0.0",
+    "pytest-cov>=7.0.0",
+    "pyinstaller>=6.0.0",
+]
 
 [tool.bumpversion]
 current_version = "0.3.0"
@@ -30,3 +35,7 @@ allow_dirty = true
 filename = "pyproject.toml"
 search = 'version = "{current_version}"'
 replace = 'version = "{new_version}"'
+
+[tool.pytest.ini_options]
+addopts = "--cov=src/digital_bomb --cov-report=term-missing --cov-report=xml"
+testpaths = ["tests"]

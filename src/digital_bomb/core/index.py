@@ -3,13 +3,14 @@
 import sys
 from time import sleep
 from shutil import get_terminal_size
+from asyncio import run
 
 from digital_bomb.core.exp import show_exp
 from digital_bomb.core.game import game
 from digital_bomb.core.save_manager import load_game
 from digital_bomb.utils.i18n import _
 from digital_bomb.utils.clear_screen import clear_screen
-from digital_bomb.utils.setup_logging import setup_logging, end_logger, clear_logs
+from digital_bomb.utils.setup_logging import setup_logging, end_logger, main_clear_logs
 
 logger = setup_logging(__name__)
 
@@ -70,5 +71,6 @@ def index() -> None:
                             break
 
                         case "1":
-                            clear_logs()
+                            clear_screen()
+                            run(main_clear_logs(), debug=True)
                             break

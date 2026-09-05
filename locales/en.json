@@ -10,16 +10,16 @@
             "new_range": "\tnew_range：{msg}\n"
         },
         "game_data": "Games played: {total_game}\nGame duration: {game_time} h\nVictories: {victory_time}\nWin rate: {win_rate}%",
-        "enter": "Press Enter key••••••",
+        "enter": "Press Enter key......",
         "index_3": "1. Delete Log Files, 0. Return to Previous Level:"
     },
     "game": {
         "difficulty": "Please select game difficulty (1. Easy, 2. Medium, 3. Hard):",
         "scope": "Please select bomb scope (1.[0~100], 2.[0~1000], 3.[0~10000]):",
         "you": "You",
-        "match": "Matching••••••",
+        "match": "Matching......",
         "vs": "You vs {ai.fake_name}",
-        "choose": "Randomly assign first turn••••••",
+        "choose": "Randomly assign first turn......",
         "choose_you": "You are the first player, Round {count}\n",
         "choose_ai": "{ai.fake_name} is the first player, Round {count}\n",
         "turn_you": "Your turn, Round {count}\n",
@@ -28,10 +28,10 @@
         "ai_bomb": "{ai.fake_name} BOMB!\nVictory!"
     },
     "logs": {
-        "delete": "Delete",
+        "delete_tips": "Deleting......",
         "delete_situation": {
-            "one": "Deleted {count} Byte of log file",
-            "other": "Deleted {count} Bytes of log files"
+            "one": "{Deleted {count} Byte of log file",
+            "other": "{Deleted {count} Bytes of log files"
         }
     }
 }

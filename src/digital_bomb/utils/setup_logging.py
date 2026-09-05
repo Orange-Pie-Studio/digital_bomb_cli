@@ -3,15 +3,14 @@
 import logging
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
-from time import perf_counter, sleep
+from time import perf_counter
 from datetime import datetime
 from functools import wraps
+from asyncio import gather, to_thread
 from collections.abc import Callable
 from typing import ParamSpec, TypeVar
 
 from psutil import disk_partitions
-from rich.progress import Progress, BarColumn, TextColumn
-from rich.console import Console
 
 from digital_bomb.utils.i18n import _
 from digital_bomb.utils.resource_path import resource_path
@@ -83,55 +82,40 @@ def end_logger(logger: logging.Logger) -> Callable[[Callable[P, R]], Callable[P,
 logger = setup_logging(__name__)
     
 @end_logger(logger)
-def clear_logs() -> None:
+def clear_logs(mountpoint: Path) -> None:
+    """_summary_
+
+    :param mountpoint: _description_
+    :type mountpoint: Path
+    """
+    log_files: list[Path] = list(mountpoint.rglob("*.log"))
+    total_size: list[int] = []
+
+    for file in log_files:
+
+        try:
+
+            if file.is_symlink() or file.is_dir() or not file.exists():
+                continue
+
+            step: int = file.stat().st_size
+            file.unlink(missing_ok=True)
+
+        except PermissionError as e:
+            logger.exception(f"\n{e}")
+
+        else:
+            total_size.append(step)
+
+    logger.info(f"{mountpoint} deleted done.")
+    return total_size
+
+@end_logger(logger)
+async def main_clear_logs() -> None:
     """_summary_"""
-    log_files = []
-    mountpoints = [Path(part.mountpoint) for part in disk_partitions()]
-
-    for mountpoint in mountpoints:
-        log_files += list(mountpoint.rglob("*.log*"))
-    
-    with Progress(
-        TextColumn("[#66CCFF]{task.description}"),
-        BarColumn(bar_width=42, style="#CD0000", complete_style="#00CD00"),
-        TextColumn("• {task.completed}/{task.total} % "),
-        console=Console()
-    ) as progress:
-        cache = []
-
-        for f in log_files:
-
-            try:
-                step = f.stat().st_size
-                cache.append(step)
-                f.unlink(missing_ok=True)
-
-            except FileNotFoundError as e:
-                logger.exception(f"\n{e}")
-
-            except Exception as e:
-                cache.remove(step)
-                logger.exception(f"\n{e}")
-
-        if not cache:
-            print(_.t("logs.delete_situation", count=sum(cache)))
-            logger.info("No log")
-            return
-
-        task = progress.add_task(
-            description=_.t("logs.delete"),
-            total=100,
-            completed=0
-        )
-        temp = 0
-
-        for c in cache:
-            temp += c
-            progress.update(
-                task,
-                completed=int(temp / sum(cache) * 100)
-            )
-            sleep(0.01)
-
-    print(_.t("logs.delete_situation", count=sum(cache)))
-    logger.info(f"Deleted {sum(cache)} Bytes logs")
+    mountpoints: list[Path] = [Path(part.mountpoint) for part in disk_partitions() if part.fstype]
+    print(_.t("logs.delete_tips"))
+    tasks = [to_thread(clear_logs, mountpoint) for mountpoint in mountpoints]
+    result = await gather(*tasks)
+    flat = [item for sublist in result for item in sublist]
+    print(_.t("logs.delete_situation", count=sum(flat)))

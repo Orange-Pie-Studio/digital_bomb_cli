@@ -10,16 +10,16 @@
             "new_range": "\t新范围：{msg}\n"
         },
         "game_data": "游玩局数：{total_game}\n游戏时长：{game_time} h\n胜利局数：{victory_time}\n胜率：{win_rate}%",
-        "enter": "按下回车键••••••",
+        "enter": "按下回车键......",
         "setting": "1.清理日志文件、0.返回上一级："
     },
     "game": {
         "difficulty": "请选择游戏难度（1.简单、2.中等、3.困难）：",
         "scope": "请选择炸弹范围（1.[0~100]、2.[0~1000]、3.[0~10000]）：",
         "you": "你",
-        "match": "匹配中••••••",
+        "match": "匹配中......",
         "vs": "你 vs {fake_name}",
-        "choose": "随机分配先后手••••••",
+        "choose": "随机分配先后手......",
         "choose_you": "你 是先手：第 {count} 回合\n",
         "choose_ai": "{fake_name} 是先手：第 {count} 回合\n",
         "turn_you": "你 的回合：第 {count} 回合\n",
@@ -28,10 +28,10 @@
         "ai_bomb": "{fake_name} BOMB！\n胜利！"
     },
     "logs": {
-        "delete": "删除：",
+        "delete_tips": "正在删除......",
         "delete_situation": {
-            "one": "删除了 {count} Byte 日志文件",
-            "other": "删除了 {count} Bytes 日志文件"
+            "one": "已删除 {count} Byte 日志文件",
+            "other": "已删除 {count} Bytes 日志文件"
         }
     }
 }

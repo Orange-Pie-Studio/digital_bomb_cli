@@ -1,5 +1,6 @@
 """_summary_"""
 
+import sys
 import logging
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
@@ -13,7 +14,6 @@ from typing import ParamSpec, TypeVar
 from psutil import disk_partitions
 
 from digital_bomb.utils.i18n import _
-from digital_bomb.utils.resource_path import resource_path
 
 P = ParamSpec("P")
 R = TypeVar("R")
@@ -32,7 +32,7 @@ def setup_logging(module_name: str) -> logging.Logger:
         return logger
 
     logger.setLevel(logging.INFO)
-    log_dir: Path = resource_path("logs")
+    log_dir: Path = Path(sys.executable).parent / "logs" if getattr(sys, 'frozen', False) else Path(__file__).resolve().parent.parent.parent.parent / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
     log_file: Path = log_dir / f"{module_name}.log"
     formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s")

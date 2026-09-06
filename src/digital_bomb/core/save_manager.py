@@ -1,22 +1,22 @@
 """_summary_"""
 
 import json
-import re
+import sys
+from pathlib import Path
 from tomllib import load
 from uuid import uuid4
 from dataclasses import dataclass, asdict
 
 from digital_bomb.utils.setup_logging import setup_logging, end_logger
-from digital_bomb.utils.resource_path import resource_path
 
 logger = setup_logging(__name__)
-SAVE_DIR = resource_path("saves")
+SAVE_DIR = Path(sys.executable).parent / "saves" if getattr(sys, 'frozen', False) else Path(__file__).resolve().parent.parent.parent.parent / "saves"
 
 if not SAVE_DIR.exists():
     SAVE_DIR.mkdir(parents=True, exist_ok=True)
 
 EXP_PATH = SAVE_DIR / "exp.json"
-VERSION_PATH = resource_path("pyproject.toml")
+VERSION_PATH = Path(sys._MEIPASS) / "pyproject.toml" if getattr(sys, 'frozen', False) else Path(__file__).resolve().parent.parent.parent.parent / "pyproject.toml"
 
 @dataclass
 class GameState:

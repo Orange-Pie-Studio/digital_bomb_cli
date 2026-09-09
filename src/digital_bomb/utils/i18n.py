@@ -13,7 +13,7 @@ class I18n:
     def __init__(self) -> None:
         """_summary_"""
         self.default_lang: str = "zh"
-        sys_lang: str = locale.getdefaultlocale()[0]
+        sys_lang: str = locale.getlocale()[0]
         self.current_lang: list[str] = os.getenv("LANG", sys_lang or self.default_lang)[:2]
 
     @lru_cache(maxsize=None)

@@ -8,10 +8,9 @@ env/
 .env
 .venv
 
-*.json
-*.log*
-
-!locales/*.json
+/saves
+/logs
+/installer
 
 .DS_Store
 Thumbs.db
@@ -26,5 +25,7 @@ build/
 *.swo
 
 *.iss
-installer/
 *.ico
+*.txt
+*.html
+.coverage

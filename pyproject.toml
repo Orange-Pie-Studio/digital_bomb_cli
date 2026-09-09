@@ -22,6 +22,8 @@ dev = [
     "bump-my-version>=0.18.0",
     "pytest>=8.0.0",
     "pytest-cov>=7.0.0",
+    "pytest-html>=4.2.0",
+    "pytest-mock>=3.15.0",
     "pyinstaller>=6.0.0",
 ]
 
@@ -37,5 +39,6 @@ search = 'version = "{current_version}"'
 replace = 'version = "{new_version}"'
 
 [tool.pytest.ini_options]
-addopts = "--cov=src/digital_bomb --cov-report=term-missing --cov-report=xml"
+addopts = "--cov=src/digital_bomb --cov-report=term-missing --cov-report=html --html=report.html --self-contained-html"
+generate_report_on_test = true
 testpaths = ["tests"]

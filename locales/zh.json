@@ -1,6 +1,6 @@
 {
     "index": {
-        "index": "1.开始游戏、2.查看战绩、3.设置、0.退出游戏：",
+        "index": "1.开始游戏、2.查看战绩、3.设置、0.退出游戏",
         "esc": "欢迎下次游玩 Digital Bomb！",
         "saves": "版本：{version}\n游戏ID：{uuid}\n时间：{timestamp}\n对局时长：{game_time} s\n对手：{opponent}\n难度：{difficulty}\n范围：{scope}\n炸弹：{bomb}\n先手：{first}\n总回合：{turn}\n胜负：{situation}\n获得的经验：{exp}\n历史记录：",
         "history": {
@@ -11,11 +11,11 @@
         },
         "game_data": "游玩局数：{total_game}\n游戏时长：{game_time} h\n胜利局数：{victory_time}\n胜率：{win_rate}%",
         "enter": "按下回车键......",
-        "setting": "1.清理日志文件、0.返回上一级："
+        "setting": "1.清理日志文件、0.返回上一级菜单"
     },
     "game": {
-        "difficulty": "请选择游戏难度（1.简单、2.中等、3.困难）：",
-        "scope": "请选择炸弹范围（1.[0~100]、2.[0~1000]、3.[0~10000]）：",
+        "difficulty": "请选择游戏难度（1.简单、2.中等、3.困难）",
+        "scope": "请选择炸弹范围（1.[0~100]、2.[0~1000]、3.[0~10000]）",
         "you": "你",
         "match": "匹配中......",
         "vs": "你 vs {fake_name}",

@@ -15,6 +15,7 @@ dependencies = [
     "requests>=2.33.1",
     "rich>=14.0.0",
     "psutil>=7.0.0",
+    "readchar>=4.2.0",
 ]
 
 [project.optional-dependencies]

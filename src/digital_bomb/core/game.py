@@ -5,9 +5,12 @@ from random import randint
 from time import sleep, time
 from shutil import get_terminal_size
 
+from readchar import readkey
+
 from digital_bomb.core.GameAI import GameAI
 from digital_bomb.core.exp import show_exp, calculate_exp
 from digital_bomb.core.save_manager import GameState, save_game
+from digital_bomb.utils.clear_screen import clear_screen
 from digital_bomb.utils.setup_logging import setup_logging, end_logger
 from digital_bomb.utils.i18n import _
 
@@ -18,10 +21,12 @@ CUT = "-" * get_terminal_size().columns
 def game() -> None:
     """_summary_"""
     
-    while True:
-
-        match input(_.t("game.difficulty")):
+    print(_.t("game.difficulty"))
     
+    while True:
+        
+        match readkey():
+
             case "1":
                 dif: str = "easy"
                 break
@@ -34,15 +39,18 @@ def game() -> None:
                 dif = "hard"
                 break
             
+    clear_screen()
+    print(_.t("game.scope"))
+    
     while True:
     
-        match input(_.t("game.scope")):
-    
+        match readkey():
+
             case "1":
                 b: int = 100
                 sco: str = "[0~100]"
                 break
-    
+
             case "2":
                 b = 1000
                 sco = "[0~1000]"
@@ -52,6 +60,8 @@ def game() -> None:
                 b = 10000
                 sco = "[0~10000]"
                 break
+            
+    clear_screen()
     
     a: int = 0
     x: int = randint(1, b-1)

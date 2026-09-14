@@ -5,6 +5,8 @@ from time import sleep
 from shutil import get_terminal_size
 from asyncio import run
 
+from readchar import readkey
+
 from digital_bomb.core.exp import show_exp
 from digital_bomb.core.game import game
 from digital_bomb.core.save_manager import load_game
@@ -20,57 +22,57 @@ CUT = "-" * get_terminal_size().columns
 def index() -> None:
     """_summary_"""
 
-    while True:
+    print(_.t("index.index"))
+    
+    match readkey():
+    
+        case '0':
+            print(_.t("index.esc"))
+            sleep(1)
+            sys.exit(0)
         
-        match input(_.t("index.index")):
+        case '1':
+            clear_screen()
+            game()
+            clear_screen()
         
-            case '0':
-                print(_.t("index.esc"))
-                sleep(1)
-                sys.exit(0)
+        case '2':
+            clear_screen()
+            total_time, victory_time, saves = load_game()
             
-            case '1':
-                game()
-                clear_screen()
-            
-            case '2':
-                clear_screen()
-                total_time, victory_time, saves = load_game()
+            if saves:
+
+                for save in saves:
+                    print(_.t("index.saves",version=save.version, uuid=save.uuid,
+                              timestamp=save.timestamp, game_time=save.game_time,
+                              opponent=save.opponent, difficulty=save.difficulty,
+                              scope=save.scope, bomb=save.bomb, first=save.first,
+                              turn=save.turn,situation=save.situation, exp=save.exp))
+                    
+                    for turn, message in save.history.items():
+                        print(_.t("index.history.turn", turn=turn))
+
+                        for msg in message.items():
+                            print(_.t(f"index.history.{msg[0]}", msg=msg[1]))
+                    
+                    print(CUT)
+
+                show_exp()
+                print(_.t("index.game_data", total_game=len(saves), game_time=round(total_time/3600, 1),
+                        victory_time=victory_time, win_rate=round(victory_time/len(saves)*100, 2)))
+                input(_.t("index.enter"))
                 
-                if saves:
+            clear_screen()
 
-                    for save in saves:
-                        print(_.t("index.saves",version=save.version, uuid=save.uuid,
-                                  timestamp=save.timestamp, game_time=save.game_time,
-                                  opponent=save.opponent, difficulty=save.difficulty,
-                                  scope=save.scope, bomb=save.bomb, first=save.first,
-                                  turn=save.turn,situation=save.situation, exp=save.exp))
-                        
-                        for turn, message in save.history.items():
-                            print(_.t("index.history.turn", turn=turn))
+        case "3":
+            clear_screen()
+            print(_.t("index.setting"))
 
-                            for msg in message.items():
-                                print(_.t(f"index.history.{msg[0]}", msg=msg[1]))
-                        
-                        print(CUT)
+            match readkey():
 
-                    show_exp()
-                    print(_.t("index.game_data", total_game=len(saves), game_time=round(total_time/3600, 1),
-                            victory_time=victory_time, win_rate=round(victory_time/len(saves)*100, 2)))
-                    input(_.t("index.enter"))
-                clear_screen()
+                case "0":
+                    clear_screen()
 
-            case "3":
-
-                while True:
-
-                    match input(_.t("index.setting")):
-
-                        case "0":
-                            clear_screen()
-                            break
-
-                        case "1":
-                            clear_screen()
-                            run(main_clear_logs(), debug=True)
-                            break
+                case "1":
+                    clear_screen()
+                    run(main_clear_logs(), debug=True)

@@ -12,7 +12,8 @@ from digital_bomb.core.game import game
 from digital_bomb.core.save_manager import load_game
 from digital_bomb.utils.i18n import _
 from digital_bomb.utils.clear_screen import clear_screen
-from digital_bomb.utils.setup_logging import setup_logging, end_logger, main_clear_logs
+from digital_bomb.utils.setup_logging import setup_logging, end_logger
+from digital_bomb.utils.clear_logs import main_clear_logs
 
 logger = setup_logging(__name__)
 

@@ -77,3 +77,9 @@ def index() -> None:
                 case "1":
                     clear_screen()
                     run(main_clear_logs(), debug=True)
+                    
+                case _:
+                    clear_screen()
+                    
+        case _:
+            clear_screen()

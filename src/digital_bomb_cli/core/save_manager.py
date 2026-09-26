@@ -7,7 +7,7 @@ from tomllib import load
 from uuid import uuid4
 from dataclasses import dataclass, asdict
 
-from digital_bomb.utils.setup_logging import setup_logging, end_logger
+from digital_bomb_cli.utils.setup_logging import setup_logging, end_logger
 
 logger = setup_logging(__name__)
 SAVE_DIR = Path(sys.executable).parent / "saves" if getattr(sys, 'frozen', False) else Path(__file__).resolve().parent.parent.parent.parent / "saves"

@@ -6,8 +6,8 @@ from random import randint
 from rich.progress import Progress, BarColumn, TextColumn
 from rich.console import Console
 
-from digital_bomb.core.save_manager import save_exp, load_exp
-from digital_bomb.utils.setup_logging import setup_logging, end_logger
+from digital_bomb_cli.core.save_manager import save_exp, load_exp
+from digital_bomb_cli.utils.setup_logging import setup_logging, end_logger
 
 logger = setup_logging(__name__)
 

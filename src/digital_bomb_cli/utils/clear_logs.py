@@ -3,8 +3,8 @@ from asyncio import to_thread, gather
 
 from psutil import disk_partitions
 
-from digital_bomb.utils.i18n import _
-from digital_bomb.utils.setup_logging import setup_logging, end_logger
+from digital_bomb_cli.utils.i18n import _
+from digital_bomb_cli.utils.setup_logging import setup_logging, end_logger
 
 logger = setup_logging(__name__)
     

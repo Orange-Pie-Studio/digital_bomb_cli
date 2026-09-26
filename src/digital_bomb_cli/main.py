@@ -1,6 +1,6 @@
 """_summary_"""
 
-from digital_bomb.core.index import index
+from digital_bomb_cli.core.index import index
 
 if __name__ == "__main__":
     

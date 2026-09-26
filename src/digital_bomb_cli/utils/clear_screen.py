@@ -3,7 +3,7 @@
 import sys
 from subprocess import run
 
-from digital_bomb.utils.setup_logging import setup_logging, end_logger
+from digital_bomb_cli.utils.setup_logging import setup_logging, end_logger
 
 logger = setup_logging(__name__)
 

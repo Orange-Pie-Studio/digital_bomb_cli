@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from random import randint
-from time import sleep, time
+from time import sleep
 from shutil import get_terminal_size
 
 from readchar import readkey
@@ -17,154 +17,174 @@ from digital_bomb_cli.utils.i18n import _
 logger = setup_logging(__name__)
 CUT = "-" * get_terminal_size().columns
 
-@end_logger(logger)
-def game() -> None:
+class Game:
     """_summary_"""
     
-    print(_.t("game.difficulty"))
-    
-    while True:
+    def __init__(self) -> None:
+        self.difficulty: str = ""
+        self.scope: str = ""
+        self.a: int = 0
+        self.b: int = 0
+        self.x: int = 0
+        self.round: int = 1
+        self.turn: bool = True
+        self.keep_going: bool = True
+        self.ai: GameAI | None = None
+        self.timestamp: str = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.history: dict = {}
         
-        match readkey():
-
-            case "1":
-                dif: str = "easy"
-                break
+    @end_logger(logger)
+    def _choose_difficulty(self) -> None:
+        """_summary_"""
         
-            case "2":
-                dif = "middle"
-                break
+        print(_.t("game.difficulty"))
         
-            case "3":
-                dif = "hard"
-                break
+        while True:
             
-    clear_screen()
-    print(_.t("game.scope"))
+            match readkey():
     
-    while True:
-    
-        match readkey():
-
-            case "1":
-                b: int = 100
-                sco: str = "[0~100]"
-                break
-
-            case "2":
-                b = 1000
-                sco = "[0~1000]"
-                break
-        
-            case "3":
-                b = 10000
-                sco = "[0~10000]"
-                break
+                case "1":
+                    self.difficulty = "easy"
+                    break
             
-    clear_screen()
+                case "2":
+                    self.difficulty = "middle"
+                    break
+            
+                case "3":
+                    self.difficulty = "hard"
+                    break
+                
+        clear_screen()
+        
+    @end_logger(logger)
+    def _choose_scope(self) -> None:
+        """_summary_"""
+        
+        print(_.t("game.scope"))
+        
+        while True:
+            
+            match readkey():
     
-    a: int = 0
-    x: int = randint(1, b-1)
-    r: int = randint(0, 1)
-    turn: int = 1
-    keep_going: bool = True
-    history: dict = {}
+                case "1":
+                    self.b: int = 100
+                    self.scope: str = "[0~100]"
+                    break
     
-    ai: GameAI = GameAI(dif)
-    ai.update(a, b)
-
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    start_time: float = time()
-    print(_.t("game.match"))
-    sleep(1)
-    print(_.t("game.vs", fake_name=ai.fake_name))
-    print(_.t("game.choose"))
-    sleep(1)
-    
-    if not r:
-        first: str = _.t("game.you")
-        print(f"\n{CUT}\n")
-        print(_.t("game.choose_you", count=turn))
+                case "2":
+                    self.b = 1000
+                    self.scope = "[0~1000]"
+                    break
+            
+                case "3":
+                    self.b = 10000
+                    self.scope = "[0~10000]"
+                    break
+                
+        clear_screen()
+                
+    @end_logger(logger)
+    def _setup_game(self) -> None:
+        """_summary_"""
+        
+        self.x = randint(self.a + 1, self.b - 1)
+        self.ai = GameAI(self.difficulty)
+        self.ai.update(self.a, self.b)
+        
+        print(_.t("game.vs", fake_name=self.ai.fake_name))
+        print(_.t("game.choose"))
+        self.turn = True if randint(0, 1) == 0 else False
+        sleep(1)
+        clear_screen()
+            
+    @end_logger(logger)
+    def _player_turn(self) -> None:
+        """_summary_"""
+        
+        print(_.t("game.turn_you", count=self.round))
         
         try:
-            c: float | int = float(input(f"{a} ～ {b}："))
+            self.c: float | int = float(input(f"{self.a} ～ {self.b}："))
             
-            if not c.is_integer():
-                raise ValueError(f"The input value {c} is an integer. Did you want to enter {int(c)}?")
+            if not self.c.is_integer():
+                raise ValueError(f"The input value {self.c} is an integer. Did you want to enter {int(self.c)}?")
             
             else:
-                c = int(c)
+                self.c = int(self.c)
 
         except ValueError as e:
             logger.exception(f"{e}\n")
-            c = x
+            self.c = self.x
 
-        r += 1
-
-    else:
-        first = ai.fake_name
-        print(f"\n{CUT}\n")
-        print(_.t("game.choose_ai", count=turn, fake_name=ai.fake_name))
-        c = ai.guess()
-        print(f'{a} ～ {b}：{c}')
+        self.turn = False
+        
+    @end_logger(logger)
+    def _ai_turn(self) -> None:
+        """_summary_"""
+        
+        self.ai.update(self.a, self.b)
+        print(_.t("game.turn_ai", count=self.round, fake_name=self.ai.fake_name))
+        self.c = self.ai.guess()
+        print(f"{self.a} ～ {self.b}：{self.c}")
         sleep(1)
-        r -= 1
-    
-    while keep_going:
-    
-        while not r:
-    
-            if c != x and a < c < b:
-                a, b = (c, b) if c < x else (a, c)
-                history[turn] = dict(the_person_who_is_guessing=ai.fake_name, guess=c, new_range=(a, b))
-                turn += 1
-                print(f"\n{CUT}\n")
-                print(_.t("game.turn_you", count=turn))
+        self.turn = True
+        
+    @end_logger(logger)
+    def _update_range(self) -> None:
+        """_summary_"""
+        
+        if self.c != self.x and self.a < self.c < self.b:
+            self.a, self.b = (self.c, self.b) if self.c < self.x else (self.a, self.c)
+            self.history[self.round] = dict(the_person_who_is_guessing=self.ai.fake_name if not self.turn else _.t("game.you"), guess=self.c, new_range=(self.a, self.b))
+            
+        else:
+            self.keep_going = False
+            
+            if self.turn:
+                print(_.t("game.ai_bomb", fake_name=self.ai.fake_name))
+                self.situation = "victory"
                 
-                try:
-                    c = float(input(f"{a} ～ {b}："))
-                    
-                    if not c.is_integer():
-                        raise ValueError(f"The input value {c} is an integer. Did you want to enter {int(c)}?")
-                    
-                    else:
-                        c = int(c)
-                
-                except ValueError as e:
-                    logger.exception(f"{e}\n")
-                    c = x
-
-                r += 1
-    
             else:
-                keep_going = False
-                print(f"\n{CUT}\n")
-                print(_.t("game.ai_bomb", fake_name=ai.fake_name))
-                situation: str = "victory"
-                break
-    
-        while r:
-    
-            if c != x and a < c < b:
-                a, b = (c, b) if c < x else (a, c)
-                history[turn] = dict(the_person_who_is_guessing=_.t("game.you"), guess=c, new_range=(a, b))
-                turn += 1
-                print(f"\n{CUT}\n")
-                ai.update(a, b)
-                print(_.t("game.turn_ai", count=turn, fake_name=ai.fake_name))
-                c = ai.guess()
-                print(f"{a} ～ {b}：{c}")
-                r -= 1
-    
-            else:
-                keep_going = False
-                print(f"\n{CUT}\n")
                 print(_.t("game.you_bomb"))
-                situation = "defeat"
-                break
-                
-    end_time: float = time()
-    exp = calculate_exp(dif, turn, sco, situation)
-    save_game(GameState(timestamp, int(end_time - start_time), ai.fake_name, dif, sco, first, turn, x, situation, exp, history))
-    show_exp(exp)
-    sleep(1.5)
+                self.situation = "defeat"
+            
+            self.exp = calculate_exp(self.difficulty, self.round, self.scope, self.situation)
+            show_exp(self.exp)
+            sleep(1.5)
+            
+    @end_logger(logger)
+    def _play(self) -> None:
+        """_summary_"""
+            
+        if self.turn:
+            self._player_turn()
+            
+        else:
+            self._ai_turn()
+            
+        print(f"{CUT}\n")
+        self._update_range()
+        self.round += 1
+        
+    @end_logger(logger)
+    def main(self) -> None:
+        """_summary_"""
+        
+        self._choose_difficulty()
+        self._choose_scope()
+        self._setup_game()
+        
+        while self.keep_going:
+            self._play()
+        
+        save_game(GameState(self.timestamp,
+                            self.ai.fake_name,
+                            self.difficulty,
+                            self.scope,
+                            _.t("game.you") if not self.turn else self.ai.fake_name,
+                            self.round,
+                            self.x,
+                            self.situation,
+                            self.exp,
+                            self.history))

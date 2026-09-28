@@ -8,7 +8,7 @@ from asyncio import run
 from readchar import readkey
 
 from digital_bomb_cli.core.exp import show_exp
-from digital_bomb_cli.core.game import game
+from digital_bomb_cli.core.game import Game
 from digital_bomb_cli.core.save_manager import load_game
 from digital_bomb_cli.utils.i18n import _
 from digital_bomb_cli.utils.clear_screen import clear_screen
@@ -34,21 +34,20 @@ def index() -> None:
         
         case '1':
             clear_screen()
-            game()
+            Game().main()
             clear_screen()
         
         case '2':
             clear_screen()
-            total_time, victory_time, saves = load_game()
+            victory_time, saves = load_game()
             
             if saves:
 
                 for save in saves:
                     print(_.t("index.saves",version=save.version, uuid=save.uuid,
-                              timestamp=save.timestamp, game_time=save.game_time,
-                              opponent=save.opponent, difficulty=save.difficulty,
+                              timestamp=save.timestamp, opponent=save.opponent, difficulty=save.difficulty,
                               scope=save.scope, bomb=save.bomb, first=save.first,
-                              turn=save.turn,situation=save.situation, exp=save.exp))
+                              turn=save.turn, situation=save.situation, exp=save.exp))
                     
                     for turn, message in save.history.items():
                         print(_.t("index.history.turn", turn=turn))
@@ -59,8 +58,8 @@ def index() -> None:
                     print(CUT)
 
                 show_exp()
-                print(_.t("index.game_data", total_game=len(saves), game_time=round(total_time/3600, 1),
-                        victory_time=victory_time, win_rate=round(victory_time/len(saves)*100, 2)))
+                print(_.t("index.game_data", total_game=len(saves),
+                          victory_time=victory_time, win_rate=round(victory_time/len(saves)*100, 2)))
                 input(_.t("index.enter"))
                 
             clear_screen()

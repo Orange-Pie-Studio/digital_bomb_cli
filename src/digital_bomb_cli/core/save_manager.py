@@ -21,7 +21,6 @@ VERSION_PATH = Path(sys._MEIPASS) / "pyproject.toml" if getattr(sys, 'frozen', F
 @dataclass
 class GameState:
     timestamp: str
-    game_time: int
     opponent: str
     difficulty: str
     scope: str
@@ -90,7 +89,7 @@ def load_game() -> list[GameState] | None:
     files = sorted(SAVE_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime)
 
     if not files:
-        return None, None, None
+        return None, None
     
     states: list[GameState] = []
 
@@ -103,16 +102,14 @@ def load_game() -> list[GameState] | None:
         except (json.JSONDecodeError, TypeError, KeyError, OSError) as e:
             logger.exception(f"\n{e}")
 
-    total_time: int = 0
     victory_time: int = 0
 
     for state in states:
-        total_time += state.game_time
 
         if state.situation == "victory":
             victory_time += 1
 
-    return total_time, victory_time, states
+    return victory_time, states
 
 @end_logger(logger)
 def save_exp(level: int, exp: int, max_exp: int) -> None:

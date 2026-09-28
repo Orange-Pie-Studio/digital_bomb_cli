@@ -2,14 +2,14 @@
     "index": {
         "index": "1. Start Game, 2. View Records, 3. Settings, 0. Exit Game",
         "esc": "Welcome to play Digital Bomb next time!",
-        "saves": "Version: {version}\nUUID: {uuid}\nTime: {timestamp}\nGame Duration: {game_time} s\nOpponent: {opponent}\nDifficulty: {difficulty}\nScope: {scope}\nBomb: {bomb}\nFirst Player: {first}\nTotal Turns: {turn}\nSituation: {situation}\nExperience Gained: {exp}\nHistory: ",
+        "saves": "Version: {version}\nUUID: {uuid}\nTime: {timestamp}\nOpponent: {opponent}\nDifficulty: {difficulty}\nScope: {scope}\nBomb: {bomb}\nFirst Player: {first}\nTotal Turns: {turn}\nSituation: {situation}\nExperience Gained: {exp}\nHistory: ",
         "history": {
             "turn": "\tRound {count}: ",
             "the_person_who_is_guessing": "\tThe_person_who_is_guessing：{msg}",
             "guess": "\tGuess：{msg}",
             "new_range": "\tnew_range：{msg}\n"
         },
-        "game_data": "Games played: {total_game}\nGame duration: {game_time} h\nVictories: {victory_time}\nWin rate: {win_rate}%",
+        "game_data": "Games played: {total_game}\nVictories: {victory_time}\nWin rate: {win_rate}%",
         "enter": "Press Enter key......",
         "index_3": "1. Delete Log Files, 0. Return to Previous Level"
     },
@@ -18,14 +18,14 @@
         "scope": "Please select bomb scope (1.[0~100], 2.[0~1000], 3.[0~10000])",
         "you": "You",
         "match": "Matching......",
-        "vs": "You vs {ai.fake_name}",
+        "vs": "You vs {fake_name}",
         "choose": "Randomly assign first turn......",
         "choose_you": "You are the first player, Round {count}\n",
-        "choose_ai": "{ai.fake_name} is the first player, Round {count}\n",
+        "choose_ai": "{fake_name} is the first player, Round {count}\n",
         "turn_you": "Your turn, Round {count}\n",
         "you_bomb": "You BOMB!\nDefeat!",
-        "turn_ai": "{ai.fake_name} 's turn, Round {count}\n",
-        "ai_bomb": "{ai.fake_name} BOMB!\nVictory!"
+        "turn_ai": "{fake_name} 's turn, Round {count}\n",
+        "ai_bomb": "{fake_name} BOMB!\nVictory!"
     },
     "logs": {
         "delete_tips": "Deleting......",

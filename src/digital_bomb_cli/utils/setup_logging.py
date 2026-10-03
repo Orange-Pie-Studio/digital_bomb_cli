@@ -65,6 +65,7 @@ def end_logger(logger: logging.Logger) -> Callable[[Callable[P, R]], Callable[P,
                 
             except Exception as e:
                 logger.exception(f"\n{e}")
+                raise
                 
             finally:
                 end: float = perf_counter()

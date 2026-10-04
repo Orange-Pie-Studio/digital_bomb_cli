@@ -29,3 +29,5 @@ build/
 *.txt
 *.html
 .coverage
+*.exe
+*.zip

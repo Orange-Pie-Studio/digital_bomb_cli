@@ -6,8 +6,8 @@
         "history": {
             "turn": "\t第 {turn} 回合：",
             "the_person_who_is_guessing": "\t猜测的人：{msg}",
-            "guess": "\t猜测：{msg}",
-            "new_range": "\t新范围：{msg}\n"
+            "new_range": "\t范围：{msg}",
+            "guess": "\t猜测：{msg}\n"
         },
         "game_data": "游玩局数：{total_game}\n胜利局数：{victory_time}\n胜率：{win_rate}%",
         "enter": "按下回车键......",

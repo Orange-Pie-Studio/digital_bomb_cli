@@ -34,7 +34,7 @@ def index() -> None:
         
         case '1':
             clear_screen()
-            Game().main()
+            Game().run()
             clear_screen()
         
         case '2':

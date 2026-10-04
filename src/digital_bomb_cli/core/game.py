@@ -25,6 +25,7 @@ class Game:
         self.scope: str = ""
         self.a: int = 0
         self.b: int = 0
+        self.c: int = 0
         self.x: int = 0
         self.round: int = 1
         self.turn: bool = True
@@ -68,7 +69,7 @@ class Game:
             match readkey():
     
                 case "1":
-                    self.b: int = 100
+                    self.b = 100
                     self.scope: str = "[0~100]"
                     break
     
@@ -105,15 +106,9 @@ class Game:
         print(_.t("game.turn_you", count=self.round))
         
         try:
-            self.c: float | int = float(input(f"{self.a} ～ {self.b}："))
-            
-            if not self.c.is_integer():
-                raise ValueError(f"The input value {self.c} is an integer. Did you want to enter {int(self.c)}?")
-            
-            else:
-                self.c = int(self.c)
+            self.c: int = int(input(f"{self.a} ～ {self.b}："))
 
-        except ValueError as e:
+        except (ValueError, EOFError) as e:
             logger.exception(f"{e}\n")
             self.c = self.x
 
@@ -132,11 +127,12 @@ class Game:
         
     @end_logger(logger)
     def _update_range(self) -> None:
+        
         """_summary_"""
+        self.history[self.round] = dict(the_person_who_is_guessing=self.ai.fake_name if self.turn else _.t("game.you"), new_range=(self.a, self.b), guess=self.c)
         
         if self.c != self.x and self.a < self.c < self.b:
             self.a, self.b = (self.c, self.b) if self.c < self.x else (self.a, self.c)
-            self.history[self.round] = dict(the_person_who_is_guessing=self.ai.fake_name if not self.turn else _.t("game.you"), guess=self.c, new_range=(self.a, self.b))
             
         else:
             self.keep_going = False
@@ -168,7 +164,7 @@ class Game:
         self.round += 1
         
     @end_logger(logger)
-    def main(self) -> None:
+    def run(self) -> None:
         """_summary_"""
         
         self._choose_difficulty()
@@ -182,9 +178,11 @@ class Game:
                             self.ai.fake_name,
                             self.difficulty,
                             self.scope,
-                            _.t("game.you") if not self.turn else self.ai.fake_name,
-                            self.round,
+                            _.t("game.you") if self.turn else self.ai.fake_name,
+                            self.round-1,
                             self.x,
                             self.situation,
                             self.exp,
-                            self.history))
+                            self.history
+                            )
+                  )

@@ -6,8 +6,8 @@
         "history": {
             "turn": "\tRound {count}: ",
             "the_person_who_is_guessing": "\tThe_person_who_is_guessing：{msg}",
-            "guess": "\tGuess：{msg}",
-            "new_range": "\tnew_range：{msg}\n"
+            "new_range": "\tRange：{msg}",
+            "guess": "\tGuess：{msg}\n"
         },
         "game_data": "Games played: {total_game}\nVictories: {victory_time}\nWin rate: {win_rate}%",
         "enter": "Press Enter key......",

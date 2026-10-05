@@ -1,4 +1,9 @@
 {
+    "main": {
+        "instcructions": "Digital Bomb CLI v{version}",
+        "update": "正在更新... {local_version} -> {remote_version}",
+        "extract": "解压文件中..."
+    },
     "index": {
         "index": "1.开始游戏、2.查看战绩、3.设置、0.退出游戏",
         "esc": "欢迎下次游玩 Digital Bomb！",

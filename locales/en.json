@@ -1,4 +1,9 @@
 {
+    "main": {
+        "instcructions": "Digital Bomb CLI v{version}",
+        "update": "Updating... {local_version} -> {remote_version}",
+        "extract": "Extracting files..."
+    },
     "index": {
         "index": "1. Start Game, 2. View Records, 3. Settings, 0. Exit Game",
         "esc": "Welcome to play Digital Bomb next time!",
